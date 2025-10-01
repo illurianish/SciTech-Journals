@@ -1,0 +1,17 @@
+# Byte-compiled Python files
+__pycache__/
+*.py[cod]
+  
+# Pytest cache
+.pytest_cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+venv.bak/
+
+# Environment files
+
+routes/__pycache__

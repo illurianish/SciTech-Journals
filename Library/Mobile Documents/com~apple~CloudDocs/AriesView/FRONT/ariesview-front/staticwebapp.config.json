@@ -1,0 +1,43 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/_next/*",
+      "/static/*",
+      "/api/*",
+      "/*.{png,jpg,gif,svg,css,js,json}",
+      "/images/*",
+      "/css/*"
+    ]
+  },
+  "routes": [
+    {
+      "route": "/api/*",
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ],
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/_not-found",
+      "statusCode": 404
+    }
+  },
+  "globalHeaders": {
+    "content-security-policy": "default-src 'self' *.ariesview.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.ariesview.com https://*.azure.com"
+  },
+  "mimeTypes": {
+    ".json": "application/json"
+  },
+  "platform": {
+    "apiRuntime": "node:20",
+    "appRuntime": "node:20",
+    "buildRuntime": "node:20"
+  },
+  "nodeVersion": "20"
+} 

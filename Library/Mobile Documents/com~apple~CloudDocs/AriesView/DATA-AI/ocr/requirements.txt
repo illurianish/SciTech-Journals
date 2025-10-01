@@ -1,0 +1,15 @@
+fastapi
+Pillow
+PyMuPDF
+pydantic
+httpx
+python-multipart
+uvicorn[standard]
+python-dotenv
+
+pypdf
+pdf2image
+tqdm
+paddleocr
+opencv-python-headless
+dotenv

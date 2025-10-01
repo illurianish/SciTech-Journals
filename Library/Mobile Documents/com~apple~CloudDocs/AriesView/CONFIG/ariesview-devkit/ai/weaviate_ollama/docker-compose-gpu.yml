@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  weaviate:
+    image: semitechnologies/weaviate:1.30.8
+    ports:
+      - "8084:8080"
+      - "50051:50051"
+    environment:
+      - ENABLE_MODULES=text2vec-ollama,generative-ollama,text2vec-transformers
+      - DEFAULT_VECTORIZER_MODULE=text2vec-transformers
+      - OLLAMA_ENDPOINT=http://ollama:11434
+      - TRANSFORMERS_INFERENCE_API=http://t2v-transformers:8080
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+    depends_on:
+      - ollama
+      - t2v-transformers
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - ollama-data:/root/.ollama
+
+  t2v-transformers:
+    image: semitechnologies/transformers-inference:sentence-transformers-all-MiniLM-L6-v2
+    runtime: nvidia
+    environment:
+      - ENABLE_CUDA=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  ollama-data:

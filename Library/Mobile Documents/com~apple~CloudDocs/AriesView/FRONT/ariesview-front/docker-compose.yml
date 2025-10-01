@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ariesview-app
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    networks:
+      - ariesview-network
+    restart: unless-stopped
+
+networks:
+  ariesview-network:
+    driver: bridge 

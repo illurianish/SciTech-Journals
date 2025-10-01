@@ -1,0 +1,14 @@
+name: paddleocr-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - fastapi
+  - uvicorn-standard
+  - pdf2image
+  - tqdm
+  - pip
+  - pip:
+    - opencv-python-headless
+    - paddleocr
+    - paddlepaddle==3.0.0 --index-url https://www.paddlepaddle.org.cn/packages/stable/cpu/ 

@@ -1,0 +1,41 @@
+# Core FastAPI dependencies
+fastapi==0.116.1
+uvicorn==0.35.0
+starlette==0.47.1
+pydantic==2.11.7
+pydantic-settings==2.10.1
+
+# Weaviate client
+weaviate-client==4.16.7
+
+# LangChain ecosystem
+langchain==0.3.26
+langchain-community==0.3.27
+langchain-core==0.3.69
+langchain-experimental==0.3.4
+
+# Machine Learning and Embeddings
+sentence-transformers==5.0.0
+transformers==4.53.2
+torch==2.7.1
+tokenizers==0.21.2
+safetensors==0.5.3
+
+# PDF processing
+PyMuPDF==1.26.3
+
+# Database
+psycopg2-binary==2.9.10
+
+# HTTP and networking
+requests==2.32.4
+httpx==0.28.1
+aiohttp==3.12.14
+
+# Environment and configuration
+python-dotenv==1.1.1
+
+# Utilities (Latest versions for Python 3.11)
+numpy==2.2.6
+pandas==2.2.3
+python-multipart==0.0.20

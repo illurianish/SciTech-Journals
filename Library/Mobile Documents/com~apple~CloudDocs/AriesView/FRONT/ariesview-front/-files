@@ -1,0 +1,18 @@
+[33mcommit 788eb1e126f6f03ac8764e36f00bb9e5769040ec[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: michele <user@example.com>
+Date:   Sat Mar 1 02:45:36 2025 -0500
+
+    Enhanced UI with shared sidebar, full-screen layout, and added profile/settings pages
+
+app/(platform)/components/Sidebar.tsx
+app/(platform)/layout.tsx
+app/(platform)/operations-dashboard/benchmark-creator/page.tsx
+app/(platform)/operations-dashboard/current-portfolio/page.tsx
+app/(platform)/operations-dashboard/deals-in-evaluation/page.tsx
+app/(platform)/operations-dashboard/document-ai-analyzer/page.tsx
+app/(platform)/operations-dashboard/documents/page.tsx
+app/(platform)/operations-dashboard/overview/page.tsx
+app/(platform)/operations-dashboard/page.tsx
+app/about.tsx
+app/profile/page.tsx
+app/settings/page.tsx
