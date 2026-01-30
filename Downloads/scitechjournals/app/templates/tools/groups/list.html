@@ -1,0 +1,98 @@
+{% extends 'side_bar.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block htmlbody %}
+
+<!--app-content open-->
+				<div class="app-content main-content mt-0">
+					<div class="side-app">
+						<!-- CONTAINER -->
+						<div class="main-container container-fluid">
+
+							<!-- PAGE-HEADER -->
+							<div class="page-header">
+								<div>
+									<h1 class="page-title">Manage Groups</h1>
+								</div>
+								<div class="ms-auto pageheader-btn">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="javascript:void(0);">Manage Groups</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Groups List</li>
+									</ol>
+								</div>
+							</div>
+							<!-- PAGE-HEADER END -->
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12">
+																		<div class="row">
+                                        <div class="col-md-12">
+                                          <a  href="{% url 'app:import_data_extractor_groups' %}">
+                                            <input type="button" value="Import Groups" class="btn btn-primary float-right" style="float:right;width: 15%;margin: 0 20px 20px 0;"></a>
+                                        </div>
+                                      </div>
+									<div class="card">
+										{% if messages %}
+											{% for message in messages %}
+											<div class="container-fluid p-0">
+											  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+												<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+												  <span aria-hidden="True">&times;</span>
+												</button>
+												{{ message }}
+											  </div>
+											</div>
+											{% endfor %}
+										{% endif %}
+										<div class="card-header border-bottom">
+											<h3 class="card-title">Group List</h3>
+											<div class="ms-auto pageheader-btn">
+												<a href="{% url 'app:data_extractor_groups_add' %}" class="btn btn-primary">Create Group</a>
+											</div>
+										</div>
+										<div class="card-body">
+											<div class="table-responsive export-table">
+												<table id="responsive-datatable" class="table table-bordered text-nowrap key-buttons border-bottom  w-100">
+													<thead>
+														<tr>
+															<th>Id</th>
+															<th>Name</th>
+															<th>User</th>
+															<th>Actions</th>
+														</tr>
+													</thead>
+													<tbody>
+														{% for data_extraction_group in data_extraction_group_details %}
+														<tr>
+															<td>{{ forloop.counter }}</td>
+															<td>{{ data_extraction_group.group_name }}</td>
+															<td>
+																{% if data_extraction_group.user %}
+																	{{ data_extraction_group.user.first_name }} {{ data_extraction_group.user.last_name }}<br>
+																	<small>{{ data_extraction_group.user.email }}</small>
+																{% else %}
+																	<em>No User</em>
+																{% endif %}
+															</td>
+															<td>
+																<a href="{% url 'app:data_extractor_groups_edit'%}?group_id={{ data_extraction_group.id }}" class="btn btn-primary">Edit</a>
+																<button class="btn btn-danger delete-user-btn" data-id="{{ user.id }}">Delete</button>
+															</td>
+														</tr>
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+                      </div>
+					</div>
+				</div>
+				<!-- CONTAINER CLOSED -->
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'side_bar.html' %}
+
+{% block title %}Add User{% endblock %}
+
+{% block htmlbody %}
+<!-- App Content -->
+<div class="app-content main-content mt-0">
+    <div class="side-app">
+        <!-- Container -->
+        <div class="main-container container-fluid">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Data Extract PUBMED CENTRAL</h1>
+                </div>
+                <div class="ms-auto pageheader-btn">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">PUBMED</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- Page Header End -->
+
+            <!-- Row -->
+            <div class="row row-sm">
+                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                    <div class="card box-shadow-0">
+                        <div class="card-header border-bottom">
+                            <h3 class="card-title">Upload PUBMED File </h3>
+                        </div>
+                        <a href="https://pmc.ncbi.nlm.nih.gov/" target="_blank"><button type="button" class="btn btn-primary mt-1">Click for Website</button></a>
+                        <div class="card-body">
+                            <form method="POST" enctype="multipart/form-data" action="{% url 'app:data_extractor_pubmed_central' %}" onsubmit="openLoader()">
+                                            {% csrf_token %}
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label">File Type</label>
+                                                    <select name="file_type" class="form-control select2 select2-show-search">
+                                                        <option value="">Select File Type</option>
+                                                        {% for key, value in extraction_file_types.items %}
+                                                            <option value="{{ key }}">{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group  col-md-6">
+                                                    <label class="form-label">File Name</label>
+                                                    <input type="text" id="extractor_name" class="form-control" name="extractor_name">
+                                                </div>
+
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label">Group Name</label>
+                                                    <select name="extract_group" class="form-control select2 select2-show-search" multiple>
+                                                        <option value="">Select Group</option>
+                                                        {% for extract_group in extract_groups %}
+                                                            <option value="{{ extract_group.id }}">{{ extract_group.group_name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group  col-md-6">
+                                                    <label class="form-label">Upload .txt File: Format (PubMed)</label>
+                                                    <input type="file" id="file" class="form-control" name="file" required accept=".txt">
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <button type="submit" class="btn btn-primary mt-1">Extract & Download Excel</button>
+                                                </div>
+                                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row End -->
+
+        </div>
+    </div>
+</div>
+<!-- Container Closed -->
+
+{% endblock %}

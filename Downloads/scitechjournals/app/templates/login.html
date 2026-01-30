@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | SciTechSeries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'images/brand/favicon.png' %}" type="image/x-icon">
+
+    <!-- Custom Scholar Style -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <style>
+        body {
+            background: linear-gradient(90deg, #aec785 50%, #e1f1c7 50%);
+        }
+        .reg-logo { width: 50%; text-align: center; image-rendering: -webkit-optimize-contrast; }
+        .advimg { width: 60%; padding-top: 15px; }
+        .registerarea { background: #fff; margin: 100px auto; box-shadow: 20px 20px 50px #aec785; border-radius: 25px; }
+        .homebgleft { background: #edffdc; padding: 40px 15px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; }
+        .rgform-total1 { width: 60%; margin: auto; padding-top: 20px; }
+        .loginform input { padding: 10px 10px 10px 40px; border-radius: 10px; border: 1px solid #ccc; width: 100%; margin-bottom: 15px; }
+        .proceed-btn1 { background: #aec785; padding: 10px; border-radius: 30px; box-shadow: 0 5px 0 #5a6d3b; text-align: center; margin-top: 20px; }
+        .proceed-btn1 button { background: transparent; border: none; font-size: 18px; font-weight: bold; color: white; text-transform: uppercase; }
+        .sign-txt, .pass-txt { text-align: center; margin-top: 10px; }
+        .reviewtext { font-size: 18px; font-weight: bold; padding-left: 20px; margin-bottom: 10px; }
+        .reviewcontent { padding: 10px 20px; font-size: 14px; color: #333; }
+        .alert-message { background-color: #e1f1c7; color: #242424; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid hometotal">
+        <div class="row registerarea">
+            <!-- LEFT SIDE -->
+            <div class="col-lg-6 homebgleft text-center">
+                <img src="{% static 'images/banner/logo.png' %}" alt="Logo" class="reg-logo mb-4">
+                <img src="{% static 'images/banner/branding-banner.png' %}" alt="Brand Banner" class="advimg">
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="col-lg-6 p-5">
+                <div class="text-center mb-4">
+                    <h3>Login | SciTechSeries</h3>
+                    <p>Access your dashboard using your credentials</p>
+                </div>
+
+                <div class="rgform-total1">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert-message">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'app:app_login' %}">
+                        {% csrf_token %}
+                        <div class="input-wrapper mb-3">
+                            <i class="fas fa-user icon"></i>
+                            <input type="text" name="username" placeholder="Admin Username" required>
+                        </div>
+
+                        <div class="input-wrapper mb-3">
+                            <i class="fas fa-lock icon"></i>
+                            <input type="password" name="password" placeholder="Password" required>
+                        </div>
+
+
+                        <div class="proceed-btn1">
+                            <button type="submit">Proceed</button>
+                        </div>
+                    </form>
+
+<!--                    <div class="sign-txt">New user? <a href="/">Register</a></div>-->
+<!--                    <div class="pass-txt"><a href="#" onclick="jivo_api.open(); return false;">Forgot password?</a></div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Libraries -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

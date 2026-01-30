@@ -1,0 +1,71 @@
+{% extends 'side_bar.html' %}
+{% load static %}
+{% load extras %}
+{% block title %}Login{% endblock %}
+
+{% block htmlbody %}
+
+<!--app-content open-->
+				<div class="app-content main-content mt-0">
+					<div class="side-app">
+						<!-- CONTAINER -->
+						<div class="main-container container-fluid">
+
+							<!-- PAGE-HEADER -->
+							<div class="page-header">
+								<div>
+									<h1 class="page-title">Manage Data Search</h1>
+								</div>
+								<div class="ms-auto pageheader-btn">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="javascript:void(0);">Manage Data Search</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Data Search List</li>
+									</ol>
+								</div>
+							</div>
+							<!-- PAGE-HEADER END -->
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12">
+									<div class="card">
+										{% if messages %}
+											{% for message in messages %}
+											<div class="container-fluid p-0">
+											  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+												<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+												  <span aria-hidden="True">&times;</span>
+												</button>
+												{{ message }}
+											  </div>
+											</div>
+											{% endfor %}
+										{% endif %}
+										<div class="card-body">
+										<form method="post" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="mb-3">
+												<label>Enter Comma-Separated Author Names</label>
+												<textarea class="form-control" name="author_names" rows="3" placeholder="e.g., John Smith, Jane Doe"></textarea>
+											</div>
+											<div class="mb-3">
+												<label>Or Upload Excel with Author Names</label>
+												<input type="file" name="excel_file" class="form-control" accept=".xls,.xlsx" />
+												<a href="{% static 'templates/search_by_author_name_template.xlsx' %}" class="btn btn-outline-success" download>
+													📥 Download Template
+												</a>
+											</div>
+											<button type="submit" class="btn btn-primary">Submit & Export</button>
+										</form>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+                      </div>
+					</div>
+				</div>
+				<!-- CONTAINER CLOSED -->
+
+
+{% endblock %}

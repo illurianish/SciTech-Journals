@@ -1,0 +1,69 @@
+{% extends 'side_bar.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block htmlbody %}
+
+<!--app-content open-->
+				<div class="app-content main-content mt-0">
+					<div class="side-app">
+						<!-- CONTAINER -->
+						<div class="main-container container-fluid">
+
+							<!-- PAGE-HEADER -->
+							<div class="page-header">
+								<div>
+									<h1 class="page-title">Groups Module</h1>
+								</div>
+								<div class="ms-auto pageheader-btn">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="javascript:void(0);">Groups</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Import Groups</li>
+									</ol>
+								</div>
+							</div>
+							<!-- PAGE-HEADER END -->
+
+							<!-- row -->
+							<div class="row row-sm">
+								<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+									<div class="card box-shadow-0">
+										<div class="card-header border-bottom">
+											<h3 class="card-title">Import Groups Form</h3>
+										</div>
+										<div class="card-body">
+											<form class="form-horizontal row" action="{% url 'app:import_data_extractor_groups' %}" method="post"
+                  enctype="multipart/form-data"> {% csrf_token %}
+												<div class="form-group col-md-6">
+                                                    <label class="form-label" for="user_list">Name</label>
+                                                    <input type="file" id="user_list" name="file" class="form-control" required>
+													<a href="{% static 'templates/data_extraction_groups_template.xlsx' %}" class="btn btn-outline-info" download>
+														📥 Download Template
+													</a>
+												</div>
+
+
+
+
+												<div class="form-group mt-3">
+													<div>
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button type="submit" class="btn btn-secondary">Cancel</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+
+
+
+						</div>
+					</div>
+				</div>
+				<!-- CONTAINER CLOSED -->
+
+
+{% endblock %}

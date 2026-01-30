@@ -1,0 +1,232 @@
+{% extends 'side_bar.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+
+{% block htmlbody %}
+
+<div class="app-content main-content mt-0">
+  <div class="side-app">
+    <div class="main-container container-fluid">
+
+      <!-- Welcome -->
+      <div class="row mt-3 mb-4">
+        <div class="col-lg-12">
+          <h1 class="text-black">Welcome to SciTechSeries</h1>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-xl-3">
+          <div class="card overflow-hidden">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h3 class="mb-2 fw-semibold">{{ total_groups }}</h3>
+                  <p class="text-muted fs-13 mb-0">Total Groups</p>
+                </div>
+                <div class="col-auto">
+                  <div class="counter-icon bg-primary ms-auto box-shadow-primary">
+                    <img src="{% static 'images/dashboard/user.svg' %}" alt="icon">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-xl-3">
+          <div class="card overflow-hidden">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h3 class="mb-2 fw-semibold">{{ pubmed_new }}</h3>
+                  <p class="text-muted fs-13 mb-0">Pubmed New</p>
+                </div>
+                <div class="col-auto">
+                  <div class="counter-icon bg-secondary ms-auto box-shadow-secondary">
+                    <img src="{% static 'images/dashboard/report.svg' %}" alt="icon">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-xl-3">
+          <div class="card overflow-hidden">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h3 class="mb-2 fw-semibold">{{ pubmed_central }}</h3>
+                  <p class="text-muted fs-13 mb-0">Pubmed Central</p>
+                </div>
+                <div class="col-auto">
+                  <div class="counter-icon bg-info ms-auto box-shadow-info">
+                    <img src="{% static 'images/dashboard/report.svg' %}" alt="icon">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-xl-3">
+          <div class="card overflow-hidden">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h3 class="mb-2 fw-semibold">{{ europe_pmc }}</h3>
+                  <p class="text-muted fs-13 mb-0">Europe PMC</p>
+                </div>
+                <div class="col-auto">
+                  <div class="counter-icon bg-warning ms-auto box-shadow-warning">
+                    <img src="{% static 'images/dashboard/report.svg' %}" alt="icon">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Uploads per User</h4>
+            <canvas id="uploadsUserChart" height="120"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Charts Section -->
+<!--      <div class="row mt-4">-->
+<!--        <div class="col-xl-6 col-lg-12">-->
+<!--          <div class="card">-->
+<!--            <div class="card-body">-->
+<!--              <h4 class="card-title">Articles per Year</h4>-->
+<!--              <canvas id="articlesYearChart" height="200"></canvas>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-xl-6 col-lg-12">-->
+<!--          <div class="card">-->
+<!--            <div class="card-body">-->
+<!--              <h4 class="card-title">Top Email Domains</h4>-->
+<!--              <canvas id="topDomainsChart" height="200"></canvas>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--	<div class="row mt-4">-->
+<!--	  <div class="col-xl-12">-->
+<!--		<div class="card">-->
+<!--		  <div class="card-body">-->
+<!--			<h4 class="card-title">Top 10 Keywords</h4>-->
+<!--			<canvas id="topKeywordsChart" height="120"></canvas>-->
+<!--		  </div>-->
+<!--		</div>-->
+<!--	  </div>-->
+<!--	</div>-->
+
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+<!--  const yearCtx = document.getElementById('articlesYearChart').getContext('2d');-->
+<!--  new Chart(yearCtx, {-->
+<!--    type: 'bar',-->
+<!--    data: {-->
+<!--      labels: {{ year_labels|safe }},-->
+<!--      datasets: [{-->
+<!--        label: 'Articles',-->
+<!--        data: {{ year_counts|safe }},-->
+<!--        backgroundColor: 'rgba(54, 162, 235, 0.7)',-->
+<!--      }]-->
+<!--    },-->
+<!--    options: {-->
+<!--      responsive: true,-->
+<!--      plugins: {-->
+<!--        legend: { display: false },-->
+<!--      },-->
+<!--      scales: {-->
+<!--        y: { beginAtZero: true }-->
+<!--      }-->
+<!--    }-->
+<!--  });-->
+
+<!--  const domainCtx = document.getElementById('topDomainsChart').getContext('2d');-->
+<!--  new Chart(domainCtx, {-->
+<!--    type: 'bar',-->
+<!--    data: {-->
+<!--      labels: {{ domain_labels|safe }},-->
+<!--      datasets: [{-->
+<!--        label: 'Authors',-->
+<!--        data: {{ domain_counts|safe }},-->
+<!--        backgroundColor: 'rgba(255, 99, 132, 0.7)',-->
+<!--      }]-->
+<!--    },-->
+<!--    options: {-->
+<!--      responsive: true,-->
+<!--      plugins: {-->
+<!--        legend: { display: false },-->
+<!--      },-->
+<!--      scales: {-->
+<!--        y: { beginAtZero: true }-->
+<!--      }-->
+<!--    }-->
+<!--  });-->
+
+<!--	const keywordCtx = document.getElementById('topKeywordsChart').getContext('2d');-->
+<!--new Chart(keywordCtx, {-->
+<!--  type: 'bar',-->
+<!--  data: {-->
+<!--    labels: {{ keyword_labels|safe }},-->
+<!--    datasets: [{-->
+<!--      label: 'Count',-->
+<!--      data: {{ keyword_counts|safe }},-->
+<!--      backgroundColor: 'rgba(75, 192, 192, 0.7)',-->
+<!--    }]-->
+<!--  },-->
+<!--  options: {-->
+<!--    responsive: true,-->
+<!--    plugins: {-->
+<!--      legend: { display: false },-->
+<!--    },-->
+<!--    scales: {-->
+<!--      y: { beginAtZero: true }-->
+<!--    }-->
+<!--  }-->
+<!--});-->
+
+  const userCtx = document.getElementById('uploadsUserChart').getContext('2d');
+new Chart(userCtx, {
+  type: 'bar',
+  data: {
+    labels: {{ user_labels|safe }},
+    datasets: [{
+      label: 'Uploads',
+      data: {{ user_counts|safe }},
+      backgroundColor: 'rgba(255, 206, 86, 0.7)',
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+</script>
+
+{% endblock %}

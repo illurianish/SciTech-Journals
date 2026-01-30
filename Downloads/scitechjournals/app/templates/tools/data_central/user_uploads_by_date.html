@@ -1,0 +1,72 @@
+{% extends 'side_bar.html' %}
+{% block title %}User Uploads By Date{% endblock %}
+{% block htmlbody %}
+<div class="app-content main-content mt-0">
+  <div class="side-app">
+    <div class="main-container container-fluid">
+
+      <div class="page-header">
+        <h1 class="page-title">User Uploads By Date</h1>
+      </div>
+
+      <form method="get" class="row mb-4">
+        <div class="col-md-3">
+          <label>User:</label>
+          <select name="user" class="form-control">
+            <option value="">All</option>
+            {% for u in users %}
+              <option value="{{ u.id }}" {% if selected_user == u.id|stringformat:'s' %}selected{% endif %}>
+                {{ u.first_name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>Start Date:</label>
+          <input type="date" name="start_date" value="{{ start_date }}" class="form-control">
+        </div>
+        <div class="col-md-3">
+          <label>End Date:</label>
+          <input type="date" name="end_date" value="{{ end_date }}" class="form-control">
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary me-2">Filter</button>
+          <a href="{% url 'app:user_uploads_by_date' %}" class="btn btn-secondary">Reset</a>
+        </div>
+      </form>
+
+      <div class="mb-3">
+        <a href="{% url 'app:export_user_uploads_excel' %}?user={{ selected_user }}&start_date={{ start_date }}&end_date={{ end_date }}" class="btn btn-success">
+          Export to Excel
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-body table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>User</th>
+                <th>Total Uploads</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in uploads %}
+              <tr>
+                <td>{{ item.upload_date }}</td>
+                <td>{{ item.extracted_by__first_name }}</td>
+                <td>{{ item.total }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="3" class="text-center">No data found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

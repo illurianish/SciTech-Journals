@@ -1,0 +1,108 @@
+{% extends 'side_bar.html' %}
+{% load static %}
+
+{% block title %}Data Extraction Backup History{% endblock %}
+
+{% block htmlbody %}
+<!--app-content open-->
+<div class="app-content main-content mt-0">
+    <div class="side-app">
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Data Extraction Backup History</h1>
+                </div>
+                <div class="ms-auto pageheader-btn">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Maintenance</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Data Extraction Backup Logs</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- PAGE-HEADER END -->
+
+            <!-- Row -->
+            <div class="row row-sm">
+                <div class="col-lg-12">
+                    <div class="card">
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="container-fluid p-0">
+                                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    {{ message }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="card-header border-bottom">
+                            <h3 class="card-title">Data Extraction Folder Backup Logs</h3>
+                            {% if not has_today_backup %}
+                            <form method="post" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" name="backup_today" class="btn btn-primary">
+                                    📦 Backup Data Folder
+                                </button>
+                            </form>
+                            {% else %}
+                            <span class="badge bg-success fs-6">✔ Backup already taken today</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive export-table">
+                                <table id="responsive-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Timestamp</th>
+                                            <th>Status</th>
+                                            <th>Message</th>
+                                            <th>Drive Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for log in logs %}
+                                        <tr class="{% if log.status == 'FAILURE' %}table-danger{% else %}table-success{% endif %}">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ log.timestamp|date:"Y-m-d H:i:s" }}</td>
+                                            <td>
+                                                {% if log.status == "SUCCESS" %}
+                                                    <span class="badge bg-success">Success</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Failure</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ log.message }}</td>
+                                            <td>
+                                                {% if log.drive_link %}
+                                                    <a href="{{ log.drive_link }}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                                                {% else %}
+                                                    <span class="text-muted">N/A</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">No backup logs available.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Row -->
+
+        </div>
+    </div>
+</div>
+<!-- CONTAINER CLOSED -->
+{% endblock %}

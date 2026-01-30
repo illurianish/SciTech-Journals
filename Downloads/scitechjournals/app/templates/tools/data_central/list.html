@@ -1,0 +1,196 @@
+{% extends 'side_bar.html' %}
+{% load extras %}
+{% block title %}Login{% endblock %}
+
+{% block htmlbody %}
+
+<!--app-content open-->
+				<div class="app-content main-content mt-0">
+					<div class="side-app">
+						<!-- CONTAINER -->
+						<div class="main-container container-fluid">
+
+							<!-- PAGE-HEADER -->
+							<div class="page-header">
+								<div>
+									<h1 class="page-title">Manage Data Central</h1>
+								</div>
+								<div class="ms-auto pageheader-btn">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="javascript:void(0);">Manage Data Central</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Data Central List</li>
+									</ol>
+								</div>
+							</div>
+							<!-- PAGE-HEADER END -->
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12">
+									<div class="card">
+										{% if messages %}
+											{% for message in messages %}
+											<div class="container-fluid p-0">
+											  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+												<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+												  <span aria-hidden="True">&times;</span>
+												</button>
+												{{ message }}
+											  </div>
+											</div>
+											{% endfor %}
+										{% endif %}
+										<div class="card-body">
+										<form method="get" class="row g-3 mb-4">
+											<div class="col-md-3">
+												<input type="text" name="keyword" class="form-control" placeholder="Search Keyword" value="{{ request.GET.keyword }}">
+											</div>
+											<div class="form-group col-md-3">
+												<select name="extraction_type" class="form-control select2">
+													<option value="">-- All Data Sources --</option>
+													{% for key, val in extraction_type.items %}
+														<option value="{{ key }}" {% if request.GET.extraction_type == key|stringformat:"s" %}selected{% endif %}>{{ val }}</option>
+													{% endfor %}
+												</select>
+											</div>
+
+											<div class="form-group col-md-6">
+												<select name="user_id" class="form-control select2 select2-show-search-single">
+													<option value="">-- All Users --</option>
+													{% for user in all_users %}
+														<option value="{{ user.id }}" {% if request.GET.user_id == user.id|stringformat:"s" %}selected{% endif %}>
+															{{ user.first_name }} {{ user.last_name }}
+														</option>
+													{% endfor %}
+												</select>
+											</div>
+
+											<div class="form-group col-md-6">
+												<select name="group_id" class="form-control select2 select2-show-search-single">
+													<option value="">-- All Groups --</option>
+													{% for group in all_groups %}
+														<option value="{{ group.id }}" {% if request.GET.group_id == group.id|stringformat:"s" %}selected{% endif %}>
+															{{ group.group_name }}
+														</option>
+													{% endfor %}
+												</select>
+											</div>
+
+
+
+											<div class="col-md-3">
+												<input type="date" name="start_date" class="form-control" value="{{ request.GET.start_date }}">
+											</div>
+
+											<div class="col-md-3">
+												<input type="date" name="end_date" class="form-control" value="{{ request.GET.end_date }}">
+											</div>
+
+											<div class="col-md-3 d-flex align-items-end">
+												<button type="submit" class="btn btn-primary me-2">Filter</button>
+												<a href="{% url 'app:data_central_list' %}" class="btn btn-secondary">Reset</a>
+											</div>
+										</form>
+										</div>
+										<div class="card-header border-bottom">
+											<h3 class="card-title">Data Central List</h3>
+											<div class="ms-auto pageheader-btn">
+											</div>
+										</div>
+										<div class="card-body">
+											<form id="bulkDownloadForm" method="post" action="{% url 'app:bulk_download_zip' %}" onsubmit="openLoader()">
+											  {% csrf_token %}
+											  <input type="hidden" name="selected_ids" id="selected_ids">
+											  <button type="submit" class="btn btn-success mb-3" id="bulkDownloadBtn" style="display: none;">
+												Bulk Download ZIP
+											  </button>
+											</form>
+											<div class="table-responsive export-table">
+												<table id="responsive-datatable" class="table table-bordered text-nowrap key-buttons border-bottom  w-100">
+													<thead>
+														<tr>
+															<th></th>
+															<th>Id</th>
+															<th>Keyword</th>
+															<th>Data Source</th>
+															<th>Group Name</th>
+															<th>Total Records</th>
+															<th>Unique Records</th>
+															<th>User</th>
+															<th>Processed on</th>
+															<th>File</th>
+														</tr>
+													</thead>
+													<tbody>
+													  {% for data_central_list in data_central_list_info %}
+													  <tr>
+														<td>
+														  {% if data_central_list.output_excel_path %}
+															<input type="checkbox" class="fileCheckbox" name="file_ids" value="{{ data_central_list.id }}">
+														  {% endif %}
+														</td>
+														<td>{{ forloop.counter }}</td>
+														<td>{{ data_central_list.extraction_name }}</td>
+														<td>{{ extraction_type|dict_get:data_central_list.extraction_type }}</td>
+														<td style="max-width: 200px;">
+														  <span title="{{ group_id_name_map|get_item:data_central_list.extraction_groups|stringformat:'s' }}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 180px;">
+															{{ group_id_name_map|get_group:data_central_list.extraction_groups|stringformat:'s' }}
+														  </span>
+														</td>
+														<td>{{ data_central_list.total_records }}</td>
+														<td>{{ data_central_list.total_unique_records }}</td>
+														<td>{{ data_central_list.extracted_by.first_name }}</td>
+														<td>{{ data_central_list.created_at }}</td>
+														<td>
+														  {% if data_central_list.output_excel_path %}
+															<a href="{{ data_central_list.output_excel_path|replace:'app/data_extraction::/media' }}" download>
+															  Download Excel
+															</a>
+														  {% else %}
+															No file
+														  {% endif %}
+														</td>
+													  </tr>
+													  {% endfor %}
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+                      </div>
+					</div>
+				</div>
+				<!-- CONTAINER CLOSED -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".fileCheckbox");
+    const selectAll = document.getElementById("selectAll");
+    const bulkBtn = document.getElementById("bulkDownloadBtn");
+    const form = document.getElementById("bulkDownloadForm");
+    const selectedIdsInput = document.getElementById("selected_ids");
+
+    function toggleBulkButton() {
+      const checked = document.querySelectorAll(".fileCheckbox:checked");
+      bulkBtn.style.display = checked.length > 0 ? "inline-block" : "none";
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener("change", toggleBulkButton));
+
+    if (selectAll) {
+      selectAll.addEventListener("change", function () {
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        toggleBulkButton();
+      });
+    }
+
+    form.addEventListener("submit", function (e) {
+      const checked = document.querySelectorAll(".fileCheckbox:checked");
+      const ids = Array.from(checked).map(cb => cb.value);
+      selectedIdsInput.value = ids.join(",");
+    });
+  });
+</script>
+{% endblock %}
